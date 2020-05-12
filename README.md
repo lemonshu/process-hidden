@@ -1,2 +1,10 @@
 # process-hidden
-通过伪装进程名来对进程实现隐藏
+所谓的进程隐藏，通俗地说指的是某个进程正常工作，不受任何影响，但是，我们使用类似任务管理器、Process Explorer 等进程查看软件查看进程，却看不到这个进程。适合秘密在计算机后台进行操作的程序，而不想让人发现
+对病毒木马来说，最简单的进程伪装方式就是修改进程名
+通过HOOKAPI ZwQuerySystemInformation可以实现进程隐藏.这是因为EnumProcess或者
+CreateToolHelp32Snapshot遍历进程,都是通过ZwQuerySystemInformation函数来检索系统进程信息的.
+获取ZwQuerySystemInformation函数地址
+根据32和64位版本,计算偏移,修改函数前xx字节数据
+先修改页属性,再修好内存数据,恢复页属性
+在My_ZwQuerySystemInformation函数中判断是否检索要隐藏进程,
+若是隐藏进程,遍历检索结果,剔除隐藏进程的信息,将修改数据返回
